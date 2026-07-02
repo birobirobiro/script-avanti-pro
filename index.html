@@ -25,18 +25,18 @@
     return new URLSearchParams(window.location.search).get(param);
   }
 
-  function getUtm(param) {
-    if (
-      typeof trackingNemu !== "undefined" &&
-      trackingNemu.nemuUtms &&
-      typeof trackingNemu.nemuUtms.get === "function"
-    ) {
-      var nemuValue = trackingNemu.nemuUtms.get(param);
-      if (nemuValue) return nemuValue;
-    }
-
-    return getFromUrl(param);
+function getUtm(param) {
+  if (
+    param.indexOf("nemu_") === 0 &&
+    typeof trackingNemu !== "undefined" &&
+    trackingNemu.nemuUtms &&
+    typeof trackingNemu.nemuUtms.get === "function"
+  ) {
+    var nemuValue = trackingNemu.nemuUtms.get(param);
+    if (nemuValue) return nemuValue;
   }
+  return getFromUrl(param);
+}
 
   var utmMap = {
     utm_source:   "avant_source",
@@ -59,5 +59,78 @@
       setCookie(cookieName, value, COOKIE_DAYS);
     }
   });
+})();
+</script>
+
+
+<script>
+(function () {
+  var params = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"];
+
+  var cookieMap = {
+    utm_source: "avant_source",
+    utm_medium: "avant_medium",
+    utm_campaign: "avant_campaign",
+    utm_term: "avant_term",
+    utm_content: "avant_content"
+  };
+
+  function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length === 2) return decodeURIComponent(parts.pop().split(";").shift());
+    return "";
+  }
+
+  function getFromUrl(param) {
+    return new URLSearchParams(window.location.search).get(param);
+  }
+
+  function hasAnyUtmInUrl() {
+    var sp = new URLSearchParams(window.location.search);
+    return params.some(function(p){ return sp.get(p); });
+  }
+
+  function isInternal(href) {
+    try {
+      var u = new URL(href, window.location.origin);
+      return u.origin === window.location.origin;
+    } catch (e) { return false; }
+  }
+
+  function shouldSkip(href) {
+    return (
+      !href ||
+      href.startsWith("#") ||
+      href.startsWith("javascript:") ||
+      href.startsWith("mailto:") ||
+      href.startsWith("tel:") ||
+      href.startsWith("whatsapp:")
+    );
+  }
+
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest("a") : null;
+    if (!a) return;
+
+    var href = a.getAttribute("href") || "";
+    if (shouldSkip(href)) return;
+    if (!isInternal(a.href)) return;
+
+    var url = new URL(a.href, window.location.origin);
+
+    var urlHasAnyUtm = hasAnyUtmInUrl();
+
+    params.forEach(function (p) {
+      var val = urlHasAnyUtm ? getFromUrl(p) : getCookie(cookieMap[p]);
+
+      // só seta se tiver valor e se o link ainda não tem esse parâmetro
+      if (val && !url.searchParams.has(p)) {
+        url.searchParams.set(p, val);
+      }
+    });
+
+    a.href = url.toString();
+  }, true);
 })();
 </script>
