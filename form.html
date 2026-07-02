@@ -1,0 +1,307 @@
+<form method="POST" action="https://ramsolution1305.activehosted.com/proc.php" id="form_51" class="_form _form_51 _inline-form  _dark" novalidate data-styles-version="5">
+  <input type="hidden" name="u" value="51" />
+  <input type="hidden" name="f" value="51" />
+  <input type="hidden" name="s" />
+  <input type="hidden" name="c" value="0" />
+  <input type="hidden" name="m" value="0" />
+  <input type="hidden" name="act" value="sub" />
+  <input type="hidden" name="v" value="2" />
+  <input type="hidden" name="or" value="8dfcb702065a77f1921712ed1d567dea" />
+  <div class="_form-content">
+    <div class="_form_element _x33663024 _full_width">
+      <div class="_field-wrapper">
+        <input type="text" id="fullname" name="fullname" placeholder="Digite seu nome ou o da sua empresa." />
+      </div>
+    </div>
+    <div class="_form_element _x23885355 _full_width">
+      <div class="_field-wrapper">
+        <input type="text" id="email" name="email" placeholder="Digite seu email" required />
+        <div id="email-error" class="_error" style="display: none;">Por favor, insira um email válido.</div>
+      </div>
+    </div>
+    <div class="_form_element _x29281430 _full_width">
+      <div class="_field-wrapper">
+        <input type="tel" id="phone" name="phone" placeholder="Digite seu telefone" maxlength="13" required />
+        <div id="phone-error" class="_error" style="display: none;">Por favor, insira um telefone válido.</div>
+      </div>
+    </div>
+    <div class="_form_element _x17421487 _full_width">
+      <div class="_field-wrapper">
+        <select name="field[36]" id="field[36]" required>
+          <option value="" selected>Você já vende em marketplaces?</option>
+          <option value="Não, ainda não vendo em marketplaces"> Não, ainda não vendo em marketplaces </option>
+          <option value="Sim, vendo e faturo até R$ 10 mil em média por mês"> Sim, vendo e faturo até R$ 10 mil em média por mês </option>
+          <option value="Sim, vendo e faturo acima de R$ 10 mil em média por mês"> Sim, vendo e faturo acima de R$ 10 mil em média por mês </option>
+        </select>
+        <div id="marketplace-error" class="_error" style="display: none;">Por favor, selecione uma opção.</div>
+      </div>
+    </div>
+    <div class="_form_element _full_width">
+      <div class="_field-wrapper">
+        <input id="u_campaign" type="hidden" name="field[20]" value="">
+        <input id="u_medium" type="hidden" name="field[19]" value="">
+        <input id="u_source" type="hidden" name="field[18]" value="">
+        <input id="u_content" type="hidden" name="field[22]" value="">
+        <input id="u_term" type="hidden" name="field[21]" value="">
+        <input id="nemu_source" type="hidden" name="field[25]" value="">
+        <input id="nemu_adset" type="hidden" name="field[26]" value="">
+        <input id="nemu_campaign" type="hidden" name="field[27]" value="">
+        <input id="nemu_content" type="hidden" name="field[28]" value="">
+        <input id="nemu_term_field" type="hidden" name="field[29]" value="">
+        <input id="link_de_acesso" type="hidden" name="field[30]" value="">
+        <input id="field[32]" type="hidden" name="field[32]" value="">
+      </div>
+    </div>
+    <div class="_button-wrapper _full_width">
+      <button id="_form_51_submit" class="_submit" type="submit"> Comprar agora <img src="/wp-content/uploads/2025/11/seta-direita.svg" />
+      </button>
+    </div>
+  </div>
+</form>
+<script>
+  function isValidEmail(email) {
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function isValidPhone(phone) {
+    var digits = phone.replace(/\D/g, '');
+    return digits.length === 11;
+  }
+
+  function formatPhone(value) {
+    var digits = value.replace(/\D/g, '').substring(0, 11);
+    if (digits.length <= 2) {
+      return digits;
+    } else if (digits.length <= 7) {
+      return digits.substring(0, 2) + ' ' + digits.substring(2);
+    } else {
+      return digits.substring(0, 2) + ' ' + digits.substring(2, 7) + ' ' + digits.substring(7);
+    }
+  }
+
+  function isValidMarketplace(value) {
+    return value && value.trim() !== '' && value !== 'Você já vende em marketplaces?';
+  }
+
+  function setLinkDeAcesso(form) {
+    var input = form.querySelector('input[name="field[30]"]');
+    if (input) input.value = window.location.href;
+  }
+
+  function getSubmitTimestamp() {
+    var d = new Date();
+    var pad = function(n) {
+      return n < 10 ? '0' + n : n;
+    };
+    return (d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()));
+  }
+
+  function setSubmitTimestamp(form) {
+    var input = form.querySelector('input[name="field[32]"]');
+    if (input) input.value = getSubmitTimestamp();
+  }
+
+function addUTMParamsToForm(form) {
+  function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length === 2) return decodeURIComponent(parts.pop().split(";").shift());
+    return '';
+  }
+
+  function getFromUrl(param) {
+    return new URLSearchParams(window.location.search).get(param) || '';
+  }
+
+  function getAvantUTM(param, cookieName) {
+    return getCookie(cookieName) || getFromUrl(param);
+  }
+
+  function getNemuUTM(param) {
+    try {
+      if (typeof trackingNemu !== 'undefined' && trackingNemu.nemuUtms && typeof trackingNemu.nemuUtms.get === 'function') {
+        var nemuValue = trackingNemu.nemuUtms.get(param);
+        if (nemuValue) return nemuValue;
+      }
+    } catch (e) {}
+    return getFromUrl(param) || getCookie(param);
+  }
+
+  function setValue(name, value) {
+    var input = form.querySelector('input[name="' + name + '"]');
+    if (input) input.value = value;
+  }
+  
+    // UTMs tradicionais (Avant)
+    setValue('field[18]', getNemuUTM('utm_source') || getNemuUTM('nemu_source'));
+    setValue('field[19]', getNemuUTM('utm_medium') || getNemuUTM('nemu_adset'));
+    setValue('field[20]', getNemuUTM('utm_campaign') || getNemuUTM('nemu_campaign'));
+    setValue('field[21]', getAvantUTM('utm_term', 'avant_term'));
+    setValue('field[22]', getNemuUTM('utm_content') || getNemuUTM('nemu_content'));
+    
+    // UTMs da Nemu
+    setValue('field[25]', getNemuUTM('nemu_source'));
+    setValue('field[26]', getNemuUTM('nemu_adset'));
+    setValue('field[27]', getNemuUTM('nemu_campaign'));
+    setValue('field[28]', getNemuUTM('nemu_content'));
+    setValue('field[29]', getNemuUTM('nemu_term'));
+  }
+
+  function preencherFormulario(form) {
+    addUTMParamsToForm(form);
+    setLinkDeAcesso(form);
+    setSubmitTimestamp(form);
+  }
+
+  function preencherTodosFormularios() {
+    document.querySelectorAll('form._form_51').forEach(preencherFormulario);
+  }
+
+  function handleFormSubmit(event) {
+    var form = event.target;
+    var emailInput = form.querySelector('input[name="email"]');
+    var emailError = form.querySelector('#email-error');
+    var emailValue = emailInput.value.trim();
+    var phoneInput = form.querySelector('input[name="phone"]');
+    var phoneError = form.querySelector('#phone-error');
+    var phoneValue = phoneInput.value.trim();
+    var marketplaceInput = form.querySelector('select[name="field[36]"]');
+    var marketplaceError = form.querySelector('#marketplace-error');
+    var marketplaceValue = marketplaceInput.value;
+    if (!emailValue || !isValidEmail(emailValue)) {
+      event.preventDefault();
+      emailError.style.display = 'block';
+      emailInput.style.borderColor = '#830909';
+      emailInput.focus();
+      return false;
+    }
+    emailError.style.display = 'none';
+    emailInput.style.borderColor = '#DDDDDD';
+    if (!phoneValue || !isValidPhone(phoneValue)) {
+      event.preventDefault();
+      phoneError.style.display = 'block';
+      phoneInput.style.borderColor = '#830909';
+      phoneInput.focus();
+      return false;
+    }
+    phoneError.style.display = 'none';
+    phoneInput.style.borderColor = '#DDDDDD';
+    if (!isValidMarketplace(marketplaceValue)) {
+      event.preventDefault();
+      marketplaceError.style.display = 'block';
+      marketplaceInput.style.borderColor = '#830909';
+      marketplaceInput.focus();
+      return false;
+    }
+    marketplaceError.style.display = 'none';
+    marketplaceInput.style.borderColor = '#DDDDDD';
+    preencherFormulario(form);
+    return true;
+  }
+  // Delegação de eventos no document: funciona para qualquer formulário
+  // _form_51, mesmo que o Elementor clone ou re-renderize o popup.
+  if (!window.__form51Init) {
+    window.__form51Init = true;
+    document.addEventListener('submit', function(event) {
+      var form = event.target;
+      if (form && form.matches && form.matches('form._form_51')) {
+        handleFormSubmit(event);
+      }
+    }, true);
+    document.addEventListener('input', function(event) {
+      var el = event.target;
+      var form = el.closest ? el.closest('form._form_51') : null;
+      if (!form) return;
+      if (el.name === 'phone') {
+        el.value = formatPhone(el.value);
+        var phoneErr = form.querySelector('#phone-error');
+        if (phoneErr) phoneErr.style.display = 'none';
+        el.style.borderColor = '#DDDDDD';
+      }
+      if (el.name === 'email') {
+        var emailErr = form.querySelector('#email-error');
+        if (emailErr) emailErr.style.display = 'none';
+        el.style.borderColor = '#DDDDDD';
+      }
+    }, true);
+    document.addEventListener('change', function(event) {
+      var el = event.target;
+      var form = el.closest ? el.closest('form._form_51') : null;
+      if (!form) return;
+      if (el.name === 'field[36]') {
+        var mkErr = form.querySelector('#marketplace-error');
+        if (mkErr) mkErr.style.display = 'none';
+        el.style.borderColor = '#DDDDDD';
+      }
+    }, true);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', preencherTodosFormularios);
+    } else {
+      preencherTodosFormularios();
+    }
+    if (window.jQuery) {
+      jQuery(document).on('elementor/popup/show', function() {
+        preencherTodosFormularios();
+      });
+    }
+  }
+</script>
+<style>
+  ._form-content button {
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 30px;
+    width: 60%;
+    font-family: "Roboto", Sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 51px;
+    background-image: linear-gradient(90deg, #00BFFF 0%, #271BEF 100%);
+    border-radius: 10px;
+    border: none;
+  }
+
+  ._form-content button:hover {
+    transform: scale(1.1);
+    background-color: #0084FF;
+  }
+
+  ._form-label {
+    display: none;
+  }
+
+  .g-recaptcha {
+    margin-bottom: 20px;
+  }
+
+  ._form-content input,
+  ._form-content select {
+    background: #F8F8F8;
+    font-size: 16px;
+    color: #3F3F3F;
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 0;
+    min-height: 51px;
+    padding: 6px 16px;
+  }
+
+  ._form-content button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  ._error {
+    margin-top: -5px;
+    margin-bottom: 10px;
+    color: #830909;
+    font-size: 14px;
+    font-family: Roboto, Sans-serif;
+  }
+</style>
